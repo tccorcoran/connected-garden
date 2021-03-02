@@ -26,3 +26,6 @@ def calibrate(data_points):
     click.secho(f"mean: {mean(values)}:.2f")
     click.secho(f"min: {min(values)}:.2f")
     click.secho(f"max: {min(values)}:.2f")
+
+if __name__ == "__main__":
+    calibrate()
