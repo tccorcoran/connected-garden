@@ -22,6 +22,7 @@ def calibrate(data_points):
     values = []
     while len(values) < data_points:
         values.append(chan.value)
+        time.sleep(.5)
     click.secho(f"std : {stdev(values)}:.2f")
     click.secho(f"mean: {mean(values)}:.2f")
     click.secho(f"min: {min(values)}:.2f")
