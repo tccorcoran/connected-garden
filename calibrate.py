@@ -23,10 +23,10 @@ def calibrate(data_points):
     while len(values) < data_points:
         values.append(chan.value)
         time.sleep(.5)
-    click.secho(f"std : {stdev(values)}:.2f")
-    click.secho(f"mean: {mean(values)}:.2f")
-    click.secho(f"min: {min(values)}:.2f")
-    click.secho(f"max: {min(values)}:.2f")
+    click.secho(f"std : {stdev(values):.2f}")
+    click.secho(f"mean: {mean(values):.2f}")
+    click.secho(f"min: {min(values):.2f}")
+    click.secho(f"max: {min(values):.2f}")
 
 if __name__ == "__main__":
     calibrate()
