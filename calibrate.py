@@ -15,7 +15,7 @@ ads = ADS.ADS1015(i2c)
 # Create single-ended input on channel 0
 chan = AnalogIn(ads, ADS.P0)
 
- 
+
 @click.command()
 @click.option("--data-points", "-d", type=int, default=20)
 def calibrate(data_points):
