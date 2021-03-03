@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Customizable Canvas Gauge Example</h1>
+    <h1>Soil Moisture Sensor A0</h1>
     <div id="preview-textfield" class="preview-textfield">1,250</div>
     <canvas id="demo" height="300" width="300"></canvas>
 
@@ -13,13 +13,6 @@
 <script src="static/gauge.js"></script>
 
 
-<h1>WebSocket Chat</h1>
-<form action="" onsubmit="sendMessage(event)">
-    <input type="text" id="messageText" autocomplete="off"/>
-    <button>Send</button>
-</form>
-<ul id='messages'>
-</ul>
 <script>
     function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -58,13 +51,9 @@
             gauge.setMinValue(6000);  // set min value
             gauge.set(15000); // set actual value
 
-            var ws = new WebSocket("ws://localhost:8000/ws");
+            var ws = new WebSocket("ws://192.168.1.2:8000/ws");
             ws.onmessage = function(event) {
-                var messages = document.getElementById('messages')
-                var message = document.createElement('li')
                 var content = document.createTextNode(event.data)
-                message.appendChild(content)
-                messages.appendChild(message)
                 gauge.set(event.data)
             };
             function sendMessage(event) {

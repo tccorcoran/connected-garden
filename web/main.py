@@ -13,6 +13,7 @@ html = Path("templates/index.html").read_text()
 
 async def get_num():
     await sleep(1)
+    print('sleeping')
     return randint(6000,30000)
 
 
@@ -25,4 +26,4 @@ async def get():
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     while True:
-        await websocket.send_text(str(await get_num()))
+        await websocket.send_text(str(await read_sensor()))
