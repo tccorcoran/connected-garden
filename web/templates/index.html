@@ -1,30 +1,26 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Chat</title>
-    </head>
-    <body>
-    <div class="container">
-  <h1>Customizable Canvas Gauge Example</h1>
-  <div id="preview-textfield" class="preview-textfield">1,250</div>
-  <canvas id="demo" height="300" width="300"></canvas>
+<head>
+    <title>Chat</title>
+</head>
+<body>
+<div class="container">
+    <h1>Customizable Canvas Gauge Example</h1>
+    <div id="preview-textfield" class="preview-textfield">1,250</div>
+    <canvas id="demo" height="300" width="300"></canvas>
 
 </div>
 <script src="static/gauge.js"></script>
 
 
-
-
-
-
-        <h1>WebSocket Chat</h1>
-        <form action="" onsubmit="sendMessage(event)">
-            <input type="text" id="messageText" autocomplete="off"/>
-            <button>Send</button>
-        </form>
-        <ul id='messages'>
-        </ul>
-        <script>
+<h1>WebSocket Chat</h1>
+<form action="" onsubmit="sendMessage(event)">
+    <input type="text" id="messageText" autocomplete="off"/>
+    <button>Send</button>
+</form>
+<ul id='messages'>
+</ul>
+<script>
     function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
@@ -40,28 +36,27 @@
       },
       staticLabels: {
         font: "14px sans-serif",
-        values: [0 ,200, 500, 2100, 2800],
-        labels: ["red", "yellow", "green", "yellow", "red"],
+        values: [6000, 15787, 21305, 26000, 30000],
+        labels: ["verywet", "good", "dry", "superdry", "" ],
         fractionDigits: 0
       },
       staticZones: [
-         {strokeStyle: "#F03E3E", min: 0, max: 200},
-         {strokeStyle: "#FFDD00", min: 200, max: 500},
-         {strokeStyle: "#30B32D", min: 500, max: 2100},
-         {strokeStyle: "#FFDD00", min: 2100, max: 2800},
-         {strokeStyle: "#F03E3E", min: 2800, max: 3000}
+         {strokeStyle: "#00008b", min: 6000, max: 15787},
+         {strokeStyle: "#30B32D", min: 15787, max: 21305},
+         {strokeStyle: "#FFDD00", min: 21305, max: 26000},
+         {strokeStyle: "#F03E3E", min: 26000, max: 30000},
       ],
       limitMax: false,
       limitMin: false,
       highDpiSupport: true
 };
-var target = document.getElementById('demo'); // your canvas element
-var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-document.getElementById("preview-textfield").className = "preview-textfield";
-gauge.setTextField(document.getElementById("preview-textfield"));
-gauge.maxValue = 3000; // set max gauge value
-gauge.setMinValue(0);  // set min value
-gauge.set(1250); // set actual value
+            var target = document.getElementById('demo'); // your canvas element
+            var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+            document.getElementById("preview-textfield").className = "preview-textfield";
+            gauge.setTextField(document.getElementById("preview-textfield"));
+            gauge.maxValue = 30000; // set max gauge value
+            gauge.setMinValue(6000);  // set min value
+            gauge.set(15000); // set actual value
 
             var ws = new WebSocket("ws://localhost:8000/ws");
             ws.onmessage = function(event) {
@@ -78,7 +73,8 @@ gauge.set(1250); // set actual value
                 input.value = ''
                 event.preventDefault()
             }
-        </script>
 
-    </body>
+</script>
+
+</body>
 </html>

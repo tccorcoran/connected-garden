@@ -21,7 +21,7 @@ def play(input):
     i2c = busio.I2C(board.SCL, board.SDA)
     ads = ADS.ADS1115(i2c)
     while True:
-        chan = AnalogIn(ads, ADS.P0)
+        chan = AnalogIn(ads, ADS.P3)
         value = chan.value
         for i, (context, mean) in enumerate(context_mean_pairs):
             if i == 0 and value <= mean:

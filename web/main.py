@@ -4,6 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from asyncio import sleep
 from random import randint
 from pathlib import  Path
+
+from connected_garden.read_sensors_async import read_sensor
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -11,7 +13,7 @@ html = Path("templates/index.html").read_text()
 
 async def get_num():
     await sleep(1)
-    return randint(0,3000)
+    return randint(6000,30000)
 
 
 @app.get("/")
