@@ -1,22 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chat</title>
+    <style>
+
+    .masonry-brick {
+    color: #000000;
+    background-color: #FFF;
+    display: inline-block;
+    padding: 5px;
+    width: 100%;
+    margin: 1em 0; /* for separating masonry-bricks vertically*/
+}
+
+@media only screen and (min-width: 480px) {
+    .masonry-container {
+        -moz-column-count: 1;
+        -webkit-column-count: 1;
+        column-count: 1;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .masonry-container {
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media only screen and (min-width: 960px) {
+    .masonry-container {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
+}
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1>Soil Moisture Sensor A0</h1>
-    <div id="preview-textfield" class="preview-textfield">1,250</div>
-    <canvas id="demo" height="300" width="300"></canvas>
 
-</div>
 <script src="static/gauge.js"></script>
 
 
+<div class="masonry-container">
+   <div class="masonry-brick">
+       <div class="container">
+            <h1>Soil Moisture Sensor H0</h1>
+            <div id="preview-textfield" class="preview-textfield">1,250</div>
+            <canvas id="demo" height="300" width="300"></canvas>
+        </div>
+   </div>
+
+   <div class="masonry-brick">
+       <div class="container">
+            <h1>Soil Moisture Sensor H1</h1>
+            <div id="preview-textfield1" class="preview-textfield1">1,250</div>
+            <canvas id="demo1" height="300" width="300"></canvas>
+        </div>
+   </div>
+
+   <div class="masonry-brick">
+       <div class="container">
+            <h1>Soil Moisture Sensor H2</h1>
+            <div id="preview-textfield2" class="preview-textfield2">1,250</div>
+            <canvas id="demo2" height="300" width="300"></canvas>
+        </div>
+   </div>
+
+   <div class="masonry-brick">
+       <div class="container">
+            <h1>Soil Moisture Sensor H3</h1>
+            <div id="preview-textfield3" class="preview-textfield3">1,250</div>
+            <canvas id="demo3" height="300" width="300"></canvas>
+        </div>
+   </div>
+
+   <div class="masonry-brick">
+       <div class="container">
+            <h1>Soil Moisture Sensor H4</h1>
+            <div id="preview-textfield4" class="preview-textfield4">1,250</div>
+            <canvas id="demo4" height="300" width="300"></canvas>
+        </div>
+   </div>
+
+
+</div>
+
+
 <script>
-    function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
 
   var opts = {
    angle: -0.25,
@@ -49,12 +120,45 @@
             gauge.setTextField(document.getElementById("preview-textfield"));
             gauge.maxValue = 30000; // set max gauge value
             gauge.setMinValue(6000);  // set min value
-            gauge.set(15000); // set actual value
 
-            var ws = new WebSocket("ws://192.168.1.2:8000/ws");
+
+            var target1 = document.getElementById('demo1'); // your canvas element
+            var gauge1 = new Gauge(target1).setOptions(opts); // create sexy gauge!
+            document.getElementById("preview-textfield1").className = "preview-textfield1";
+            gauge1.setTextField(document.getElementById("preview-textfield1"));
+            gauge1.maxValue = 30000; // set max gauge value
+            gauge1.setMinValue(6000);  // set min value
+
+            var target2 = document.getElementById('demo2'); // your canvas element
+            var gauge2 = new Gauge(target2).setOptions(opts); // create sexy gauge!
+            document.getElementById("preview-textfield2").className = "preview-textfield2";
+            gauge2.setTextField(document.getElementById("preview-textfield2"));
+            gauge2.maxValue = 30000; // set max gauge value
+            gauge2.setMinValue(6000);  // set min value
+
+            var target3 = document.getElementById('demo3'); // your canvas element
+            var gauge3 = new Gauge(target3).setOptions(opts); // create sexy gauge!
+            document.getElementById("preview-textfield3").className = "preview-textfield3";
+            gauge3.setTextField(document.getElementById("preview-textfield3"));
+            gauge3.maxValue = 30000; // set max gauge value
+            gauge3.setMinValue(6000);  // set min value
+
+            var target4 = document.getElementById('demo4'); // your canvas element
+            var gauge4 = new Gauge(target4).setOptions(opts); // create sexy gauge!
+            document.getElementById("preview-textfield4").className = "preview-textfield4";
+            gauge4.setTextField(document.getElementById("preview-textfield4"));
+            gauge4.maxValue = 30000; // set max gauge value
+            gauge4.setMinValue(6000);  // set min value
+
+            var ws = new WebSocket("ws://localhost:8000/ws");
             ws.onmessage = function(event) {
-                var content = document.createTextNode(event.data)
-                gauge.set(event.data)
+                var msg = JSON.parse(event.data)
+                gauge.set(msg.soil_sensor_0)
+                gauge1.set(msg.soil_sensor_1)
+                gauge2.set(msg.soil_sensor_2)
+                gauge3.set(msg.soil_sensor_3)
+                gauge4.set(msg.soil_sensor_4)
+
             };
             function sendMessage(event) {
                 var input = document.getElementById("messageText")
@@ -64,6 +168,5 @@
             }
 
 </script>
-
 </body>
 </html>

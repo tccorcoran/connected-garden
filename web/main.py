@@ -4,17 +4,21 @@ from fastapi.staticfiles import StaticFiles
 from asyncio import sleep
 from random import randint
 from pathlib import  Path
-
-from connected_garden.read_sensors_async import read_sensor
+import json
+# from connected_garden.read_sensors_async import read_sensor
+from connected_garden.read_sensors_async import read_sensors
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 html = Path("templates/index.html").read_text()
 
-async def get_num():
+async def get_sensor_values():
     await sleep(1)
-    print('sleeping')
-    return randint(6000,30000)
+    return {"sensor0":randint(6000,30000),
+            "sensor1":randint(6000,30000),
+            "sensor2": randint(6000,30000),
+            "sensor3": randint(6000,30000),
+            "sensor4": randint(6000,30000)}
 
 
 @app.get("/")
@@ -26,4 +30,4 @@ async def get():
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     while True:
-        await websocket.send_text(str(await read_sensor()))
+        await websocket.send_json(await read_sensors())
