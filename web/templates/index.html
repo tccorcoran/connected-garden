@@ -22,17 +22,17 @@
 
 @media only screen and (min-width: 768px) {
     .masonry-container {
-        -moz-column-count: 2;
-        -webkit-column-count: 2;
-        column-count: 2;
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
     }
 }
 
 @media only screen and (min-width: 960px) {
     .masonry-container {
-        -moz-column-count: 3;
-        -webkit-column-count: 3;
-        column-count: 3;
+        -moz-column-count: 4;
+        -webkit-column-count: 4;
+        column-count: 4;
     }
 }
     </style>
@@ -48,7 +48,7 @@
        <div class="container">
             <h1>Soil Moisture Sensor H0</h1>
             <div id="preview-textfield" class="preview-textfield">1,250</div>
-            <canvas id="demo" height="300" width="300"></canvas>
+            <canvas id="demo" height="250" width="250"></canvas>
         </div>
    </div>
 
@@ -56,7 +56,7 @@
        <div class="container">
             <h1>Soil Moisture Sensor H1</h1>
             <div id="preview-textfield1" class="preview-textfield1">1,250</div>
-            <canvas id="demo1" height="300" width="300"></canvas>
+            <canvas id="demo1" height="250" width="250"></canvas>
         </div>
    </div>
 
@@ -64,7 +64,7 @@
        <div class="container">
             <h1>Soil Moisture Sensor H2</h1>
             <div id="preview-textfield2" class="preview-textfield2">1,250</div>
-            <canvas id="demo2" height="300" width="300"></canvas>
+            <canvas id="demo2" height="250" width="250"></canvas>
         </div>
    </div>
 
@@ -72,7 +72,7 @@
        <div class="container">
             <h1>Soil Moisture Sensor H3</h1>
             <div id="preview-textfield3" class="preview-textfield3">1,250</div>
-            <canvas id="demo3" height="300" width="300"></canvas>
+            <canvas id="demo3" height="250" width="250"></canvas>
         </div>
    </div>
 
@@ -80,7 +80,7 @@
        <div class="container">
             <h1>Soil Moisture Sensor H4</h1>
             <div id="preview-textfield4" class="preview-textfield4">1,250</div>
-            <canvas id="demo4" height="300" width="300"></canvas>
+            <canvas id="demo4" height="250" width="250"></canvas>
         </div>
    </div>
 
@@ -96,7 +96,7 @@
        <div class="container">
             <h1>Air Humidity</h1>
            <div id="humidity-gauge" class="humidity-gauge">0</div>
-            <canvas id="humidity-gauge-canvas" height="500" width="300"></canvas>
+            <canvas id="humidity-gauge-canvas" height="250" width="250"></canvas>
         </div>
    </div>
 
@@ -104,7 +104,7 @@
        <div class="container">
             <h1>Light Sensor</h1>
             <div id="light-gauge" class="light gauge">20000 lux</div>
-            <canvas id="light-gauge-canvas" height="300" width="500"></canvas>
+            <canvas id="light-gauge-canvas" height="250" width="250"></canvas>
         </div>
    </div>
 
@@ -181,7 +181,6 @@
             gauge4.maxValue = 30000; // set max gauge value
             gauge4.setMinValue(6000);  // set min value
 
-            var ws = new WebSocket("ws://192.168.1.5:8000/ws");
 
             var tempGauge =  new LinearGauge({
                                 renderTo: 'demo5',
@@ -234,7 +233,7 @@
                   var light_gauge_opts = {
                   angle: 0, // The span of the gauge arc
                   lineWidth: 0.2, // The line thickness
-                  radiusScale: .85, // Relative radius
+                  radiusScale: .5, // Relative radius
                   pointer: {
                     length: 0.49, // // Relative to gauge radius
                     strokeWidth: 0.02, // The thickness
@@ -261,35 +260,29 @@
 
 
                   var humidity_gauge_opts = {
-                  angle: 0, // The span of the gauge arc
-                  lineWidth: 0.2, // The line thickness
-                  radiusScale: .85, // Relative radius
-                  pointer: {
-                    length: 0.49, // // Relative to gauge radius
-                    strokeWidth: 0.02, // The thickness
-                    color: '#000000' // Fill color
-                  },
-                  limitMax: false,     // If false, max value increases automatically if value > maxValue
-                  limitMin: false,     // If true, the min value of the gauge will be fixed
-                  colorStart: '#ffd700',   // Colors
-                  colorStop: '#ffd700',    // just experiment with them
-                  strokeColor: '#00008b',  // to see which ones work best for you
-                  generateGradient: true,
-                  highDpiSupport: true,     // High resolution support
-
-                };
+                           angle: -0.1,
+                              lineWidth: 0.1,
+                              radiusScale:0.6,
+                              pointer: {
+                                length: 0.5,
+                                strokeWidth: 0.03,
+                                color: '#000000'
+                              },
+                              limitMax: false,
+                              limitMin: false,
+                              highDpiSupport: true
+                        };
                 var humidity_gauge_target = document.getElementById('humidity-gauge-canvas'); // your canvas element
                 var humidity_gauge = new Gauge(humidity_gauge_target).setOptions(humidity_gauge_opts); // create sexy gauge!
                 humidity_gauge.maxValue = 100; // set max gauge value
-		document.getElementById("humidity-gauge").className = "humidity-gauge";
-		humidity_gauge.setTextField(document.getElementById("humidity-gauge"));
+                document.getElementById("humidity-gauge").className = "humidity-gauge";
+                humidity_gauge.setTextField(document.getElementById("humidity-gauge"));
                 humidity_gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
                 humidity_gauge.animationSpeed = 98; // set animation speed (32 is default value)
                 humidity_gauge.set(50); // set actual value
 
 
-
-
+            var ws = new WebSocket("ws://localhost:8000/ws");
 
             ws.onmessage = function(event) {
                 var msg = JSON.parse(event.data)
