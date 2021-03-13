@@ -40,6 +40,7 @@
 <body>
 
 <script src="static/gauge.js"></script>
+<script src="http://cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/linear/gauge.min.js"></script>
 
 
 <div class="masonry-container">
@@ -80,6 +81,14 @@
             <h1>Soil Moisture Sensor H4</h1>
             <div id="preview-textfield4" class="preview-textfield4">1,250</div>
             <canvas id="demo4" height="300" width="300"></canvas>
+        </div>
+   </div>
+
+    <div class="masonry-brick">
+       <div class="container">
+            <h1>Air Temp</h1>
+           <div id="air-temp" class="air-temp">0</div>
+            <canvas id="demo5" height="500" width="300"></canvas>
         </div>
    </div>
 
@@ -150,6 +159,55 @@
             gauge4.maxValue = 30000; // set max gauge value
             gauge4.setMinValue(6000);  // set min value
 
+
+            var tempGauge =  new LinearGauge({
+                                renderTo: 'demo5',
+                                width: 120,
+                                height: 400,
+                                units: "°F",
+                                minValue: 0,
+                                startAngle: 90,
+                                ticksAngle: 180,
+                                valueBox: false,
+                                maxValue: 110,
+                                majorTicks: [
+                                    "0",
+                                    "10",
+                                    "20",
+                                    "30",
+                                    "40",
+                                    "50",
+                                    "60",
+                                    "70",
+                                    "80",
+                                    "90",
+                                    "100",
+                                    "110"
+                                ],
+                                minorTicks: 2,
+                                strokeTicks: true,
+                                highlights: [
+                                    {
+                                        "from": 95,
+                                        "to": 110,
+                                        "color": "rgba(200, 50, 50, .75)"
+                                    }
+                                ],
+                                colorPlate: "#fff",
+                                borderShadowWidth: 0,
+                                borders: false,
+                                needleType: "arrow",
+                                needleWidth: 2,
+                                needleCircleSize: 7,
+                                needleCircleOuter: true,
+                                needleCircleInner: false,
+                                animationDuration: 1500,
+                                animationRule: "linear",
+                                barWidth: 10,
+                                value: 35
+                            })
+            tempGauge.draw()
+
             var ws = new WebSocket("ws://localhost:8000/ws");
             ws.onmessage = function(event) {
                 var msg = JSON.parse(event.data)
@@ -158,7 +216,11 @@
                 gauge2.set(msg.soil_sensor_2)
                 gauge3.set(msg.soil_sensor_3)
                 gauge4.set(msg.soil_sensor_4)
-
+                var airTemp = document.getElementById('air-temp').textContent = msg.air_temp + " °F"
+                tempGauge.update({
+                   animation: true,
+                   value: msg.air_temp
+                })
             };
             function sendMessage(event) {
                 var input = document.getElementById("messageText")
@@ -166,6 +228,8 @@
                 input.value = ''
                 event.preventDefault()
             }
+
+
 
 </script>
 </body>
