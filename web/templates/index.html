@@ -159,6 +159,7 @@
             gauge4.maxValue = 30000; // set max gauge value
             gauge4.setMinValue(6000);  // set min value
 
+            var ws = new WebSocket("ws://192.168.1.5:8000/ws");
 
             var tempGauge =  new LinearGauge({
                                 renderTo: 'demo5',
@@ -208,7 +209,6 @@
                             })
             tempGauge.draw()
 
-            var ws = new WebSocket("ws://localhost:8000/ws");
             ws.onmessage = function(event) {
                 var msg = JSON.parse(event.data)
                 gauge.set(msg.soil_sensor_0)

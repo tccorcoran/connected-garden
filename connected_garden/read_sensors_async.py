@@ -25,7 +25,7 @@ async def read_sensor():
 async def read_sensors():
     results = {}
     await sleep(.5)
-    i2c = busio.I2C(board.SCL, board.SDA)
+    i2c = busio.I2C(board.SCL, board.SDA, frequency=50000)
     ads0 = ADS.ADS1115(i2c, address=const(0x48))
     ads1 = ADS.ADS1115(i2c, address=const(0x49))
     air_meter = adafruit_am2320.AM2320(i2c)
