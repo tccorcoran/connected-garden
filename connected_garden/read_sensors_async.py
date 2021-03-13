@@ -24,6 +24,7 @@ async def read_sensor():
 
 async def read_sensors():
     results = {}
+    await sleep(.5)
     i2c = busio.I2C(board.SCL, board.SDA)
     ads0 = ADS.ADS1115(i2c, address=const(0x48))
     ads1 = ADS.ADS1115(i2c, address=const(0x49))
@@ -38,3 +39,4 @@ async def read_sensors():
     results['air_humidity']  = air_meter.relative_humidity
     results['light_meter']  = light_meter.lux
     return results
+
