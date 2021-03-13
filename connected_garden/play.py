@@ -40,10 +40,10 @@ def play(input):
     context_mean_pairs = read_json(input)
     i2c = busio.I2C(board.SCL, board.SDA)
     ads0 = ADS.ADS1115(i2c, address=const(0x48))
-    # ads1 = ADS.ADS1115(i2c, address=const(0x49))
+    ads1 = ADS.ADS1115(i2c, address=const(0x49))
     while True:
         chans= [AnalogIn(ads0, i) for i in range(4)]
-      #  chans.append(AnalogIn(ads1, 0))
+        chans.append(AnalogIn(ads1, 0))
         contexts = []
         for i,chan in enumerate(chans):
             context = print_value(chan, context_mean_pairs)
