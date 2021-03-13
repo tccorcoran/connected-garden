@@ -92,6 +92,13 @@
         </div>
    </div>
 
+   <div class="masonry-brick">
+       <div class="container">
+            <h1>Soil Moisture Sensor H4</h1>
+            <div id="light-gauge" class="light gauge">20000 lux</div>
+            <canvas id="light-gauge-canvas" height="300" width="500"></canvas>
+        </div>
+   </div>
 
 </div>
 
@@ -159,7 +166,14 @@
             gauge4.maxValue = 30000; // set max gauge value
             gauge4.setMinValue(6000);  // set min value
 
-            var ws = new WebSocket("ws://192.168.1.5:8000/ws");
+            var target4 = document.getElementById('demo4'); // your canvas element
+            var gauge4 = new Gauge(target4).setOptions(opts); // create sexy gauge!
+            document.getElementById("preview-textfield4").className = "preview-textfield4";
+            gauge4.setTextField(document.getElementById("preview-textfield4"));
+            gauge4.maxValue = 30000; // set max gauge value
+            gauge4.setMinValue(6000);  // set min value
+
+            var ws = new WebSocket("ws://localhost:8000/ws");
 
             var tempGauge =  new LinearGauge({
                                 renderTo: 'demo5',
@@ -209,6 +223,31 @@
                             })
             tempGauge.draw()
 
+                  var light_gauge_opts = {
+                  angle: 0, // The span of the gauge arc
+                  lineWidth: 0.2, // The line thickness
+                  radiusScale: .85, // Relative radius
+                  pointer: {
+                    length: 0.49, // // Relative to gauge radius
+                    strokeWidth: 0.02, // The thickness
+                    color: '#000000' // Fill color
+                  },
+                  limitMax: false,     // If false, max value increases automatically if value > maxValue
+                  limitMin: false,     // If true, the min value of the gauge will be fixed
+                  colorStart: '#ffd700',   // Colors
+                  colorStop: '#ffd700',    // just experiment with them
+                  strokeColor: '#00008b',  // to see which ones work best for you
+                  generateGradient: true,
+                  highDpiSupport: true,     // High resolution support
+
+                };
+                var light_gauge_target = document.getElementById('light-gauge-canvas'); // your canvas element
+                var light_gauge = new Gauge(light_gauge_target).setOptions(light_gauge_opts); // create sexy gauge!
+                light_gauge.maxValue = 100000; // set max gauge value
+                light_gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+                light_gauge.animationSpeed = 98; // set animation speed (32 is default value)
+                light_gauge.set(20000); // set actual value
+
             ws.onmessage = function(event) {
                 var msg = JSON.parse(event.data)
                 gauge.set(msg.soil_sensor_0)
@@ -221,6 +260,7 @@
                    animation: true,
                    value: msg.air_temp
                 })
+                light_gauge.set(msg.light_sensor)
             };
             function sendMessage(event) {
                 var input = document.getElementById("messageText")
