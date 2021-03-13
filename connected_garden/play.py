@@ -16,6 +16,7 @@ def read_json(json_path):
     return context_mean_pairs
 def print_value(chan, context_mean_pairs):
     value = chan.value
+    print(value)
     for i, (context, mean) in enumerate(context_mean_pairs):
         if i == 0 and value <= mean:
             return context

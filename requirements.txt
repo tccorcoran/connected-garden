@@ -1,3 +1,5 @@
+adafruit-circuitpython-bh1750
+adafruit-circuitpython-am2320
 adafruit-circuitpython-ads1x15==2.2.7
 jinja2
 fastapi
