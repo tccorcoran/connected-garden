@@ -92,9 +92,17 @@
         </div>
    </div>
 
+    <div class="masonry-brick">
+       <div class="container">
+            <h1>Air Humidity</h1>
+           <div id="humidity-gauge" class="humidity-gauge">0</div>
+            <canvas id="humidity-gauge-canvas" height="500" width="300"></canvas>
+        </div>
+   </div>
+
    <div class="masonry-brick">
        <div class="container">
-            <h1>Soil Moisture Sensor H4</h1>
+            <h1>Light Sensor</h1>
             <div id="light-gauge" class="light gauge">20000 lux</div>
             <canvas id="light-gauge-canvas" height="300" width="500"></canvas>
         </div>
@@ -173,7 +181,7 @@
             gauge4.maxValue = 30000; // set max gauge value
             gauge4.setMinValue(6000);  // set min value
 
-            var ws = new WebSocket("ws://localhost:8000/ws");
+            var ws = new WebSocket("ws://192.168.1.5:8000/ws");
 
             var tempGauge =  new LinearGauge({
                                 renderTo: 'demo5',
@@ -244,9 +252,44 @@
                 var light_gauge_target = document.getElementById('light-gauge-canvas'); // your canvas element
                 var light_gauge = new Gauge(light_gauge_target).setOptions(light_gauge_opts); // create sexy gauge!
                 light_gauge.maxValue = 100000; // set max gauge value
+		document.getElementById("light-gauge").className = "light-gauge";
+		light_gauge.setTextField(document.getElementById("light-gauge"));
                 light_gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
                 light_gauge.animationSpeed = 98; // set animation speed (32 is default value)
                 light_gauge.set(20000); // set actual value
+
+
+
+                  var humidity_gauge_opts = {
+                  angle: 0, // The span of the gauge arc
+                  lineWidth: 0.2, // The line thickness
+                  radiusScale: .85, // Relative radius
+                  pointer: {
+                    length: 0.49, // // Relative to gauge radius
+                    strokeWidth: 0.02, // The thickness
+                    color: '#000000' // Fill color
+                  },
+                  limitMax: false,     // If false, max value increases automatically if value > maxValue
+                  limitMin: false,     // If true, the min value of the gauge will be fixed
+                  colorStart: '#ffd700',   // Colors
+                  colorStop: '#ffd700',    // just experiment with them
+                  strokeColor: '#00008b',  // to see which ones work best for you
+                  generateGradient: true,
+                  highDpiSupport: true,     // High resolution support
+
+                };
+                var humidity_gauge_target = document.getElementById('humidity-gauge-canvas'); // your canvas element
+                var humidity_gauge = new Gauge(humidity_gauge_target).setOptions(humidity_gauge_opts); // create sexy gauge!
+                humidity_gauge.maxValue = 100; // set max gauge value
+		document.getElementById("humidity-gauge").className = "humidity-gauge";
+		humidity_gauge.setTextField(document.getElementById("humidity-gauge"));
+                humidity_gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+                humidity_gauge.animationSpeed = 98; // set animation speed (32 is default value)
+                humidity_gauge.set(50); // set actual value
+
+
+
+
 
             ws.onmessage = function(event) {
                 var msg = JSON.parse(event.data)
@@ -261,6 +304,7 @@
                    value: msg.air_temp
                 })
                 light_gauge.set(msg.light_sensor)
+		humidity_gauge.set(msg.air_humidity)
             };
             function sendMessage(event) {
                 var input = document.getElementById("messageText")

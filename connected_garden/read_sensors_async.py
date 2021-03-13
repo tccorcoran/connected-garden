@@ -35,7 +35,7 @@ async def read_sensors(n_try=1):
             results[f'soil_sensor_{i}'] = sensor.value
         results['air_temp'] = air_meter.temperature*(9/5) + 32
         results['air_humidity']  = air_meter.relative_humidity
-        results['light_meter']  = light_meter.lux
+        results['light_sensor']  = light_meter.lux
     except Exception as e:
         logger.error(e)
         if n_try > 3:

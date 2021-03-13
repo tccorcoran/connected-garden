@@ -5,7 +5,7 @@ from asyncio import sleep
 from random import randint
 from pathlib import  Path
 import json
-#from connected_garden.read_sensors_async import read_sensors
+from connected_garden.read_sensors_async import read_sensors
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -31,4 +31,4 @@ async def get():
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     while True:
-        await websocket.send_json(await get_sensor_values())
+        await websocket.send_json(await read_sensors())
