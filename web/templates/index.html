@@ -4,8 +4,8 @@
     <style>
 
     .masonry-brick {
-    color: #000000;
-    background-color: #FFF;
+    color: #001F0C;
+    background-color: #6CBB8C;
     display: inline-block;
     padding: 5px;
     width: 100%;
@@ -36,6 +36,14 @@
     }
 }
     </style>
+<style>
+body {
+  background-color: #9EDBB7;
+}
+h1 {
+	color: #001F0C;
+}
+</style>
 </head>
 <body>
 
@@ -94,7 +102,7 @@
 
     <div class="masonry-brick">
        <div class="container">
-            <h1>Air Humidity</h1>
+            <h1 >Air Humidity</h1>
            <div id="humidity-gauge" class="humidity-gauge">0</div>
             <canvas id="humidity-gauge-canvas" height="250" width="250"></canvas>
         </div>
@@ -262,7 +270,7 @@
 		light_gauge.setTextField(document.getElementById("light-gauge"));
                 light_gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
                 light_gauge.animationSpeed = 98; // set animation speed (32 is default value)
-                light_gauge.set(20000); // set actual value
+                light_gauge.set(0); // set actual value
 
 
 
@@ -286,7 +294,7 @@
                 humidity_gauge.setTextField(document.getElementById("humidity-gauge"));
                 humidity_gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
                 humidity_gauge.animationSpeed = 98; // set animation speed (32 is default value)
-                humidity_gauge.set(50); // set actual value
+                humidity_gauge.set(0); // set actual value
 
 
             var ws = new WebSocket("ws://192.168.1.5:8000/ws");
