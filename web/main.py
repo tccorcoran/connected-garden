@@ -7,7 +7,7 @@ from pathlib import  Path
 import io
 import json
 import base64
-#from connected_garden.read_sensors_async import read_sensors
+from connected_garden.read_sensors_async import read_sensors
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -49,12 +49,16 @@ async def get():
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     while True:
-        await websocket.send_json(await get_sensor_values())
+        sio = io.BytesIO()
+        camera.capture(sio, "jpeg", use_video_port=True)
+        resp = await read_sensors()
+        resp['image_data'] = base64.b64encode(sio.getvalue()).decode('utf8')
+        await websocket.send_json(resp)
 
 @app.websocket("/video-stream")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    sio = io.BytesIO()
     while True:
+        sio = io.BytesIO()
         camera.capture(sio, "jpeg", use_video_port=True)
-        await websocket.send_bytes(base64.b64encode(sio.getvalue()))
+        await websocket.send_text(base64.b64encode(sio.getvalue()).decode('utf8'))

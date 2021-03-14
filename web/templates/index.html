@@ -40,7 +40,6 @@
 <body>
 
 <script src="static/gauge.js"></script>
-<!--<script src="http://cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/linear/gauge.min.js"></script>-->
 <script src="static/temp.js"></script>
 
 
@@ -106,6 +105,13 @@
             <h1>Light Sensor</h1>
             <div id="light-gauge" class="light gauge">20000 lux</div>
             <canvas id="light-gauge-canvas" height="250" width="250"></canvas>
+        </div>
+   </div>
+   
+   <div class="masonry-brick">
+       <div class="container">
+            <h1>Live Feed</h1>
+            <img id="live-feed" src="">
         </div>
    </div>
 
@@ -283,7 +289,8 @@
                 humidity_gauge.set(50); // set actual value
 
 
-            var ws = new WebSocket("ws://localhost:8000/ws");
+            var ws = new WebSocket("ws://192.168.1.5:8000/ws");
+	    video = document.getElementById("live-feed")
 
             ws.onmessage = function(event) {
                 var msg = JSON.parse(event.data)
@@ -299,13 +306,23 @@
                 })
                 light_gauge.set(msg.light_sensor)
 		humidity_gauge.set(msg.air_humidity)
+		video.src = "data:image/jpeg;base64, " + msg.image_data
             };
+
             function sendMessage(event) {
                 var input = document.getElementById("messageText")
                 ws.send(input.value)
                 input.value = ''
                 event.preventDefault()
             }
+
+
+
+
+//           var video_socket = new WebSocket("ws://192.168.1.5:8000/video-stream");
+//           video_socket.onmessage = function (messageEvent) {
+//                video.src = "data:image/jpeg;base64, " + messageEvent.data
+//           };
 
 
 

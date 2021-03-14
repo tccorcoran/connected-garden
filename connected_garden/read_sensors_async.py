@@ -40,6 +40,6 @@ async def read_sensors(n_try=1):
         logger.error(e)
         if n_try > 3:
             return {}
-        return read_sensors(n_try=n_try+1)
+        return await read_sensors(n_try=n_try+1)
     return results
 
