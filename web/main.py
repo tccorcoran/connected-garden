@@ -72,3 +72,4 @@ async def websocket_endpoint(websocket: WebSocket):
         sio = io.BytesIO()
         camera.capture(sio, "jpeg", use_video_port=True)
         await websocket.send_text(base64.b64encode(sio.getvalue()).decode('utf8'))
+
