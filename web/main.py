@@ -8,6 +8,7 @@ import io
 import json
 import base64
 from connected_garden.read_sensors_async import read_sensors
+from connected_garden.plot import df_to_html
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -40,6 +41,15 @@ async def get_sensor_values():
 @app.get("/")
 async def get():
     return HTMLResponse(html)
+
+@app.get("/plot")
+async def get():
+    graph = df_to_html("static/test_csv.csv")
+    return HTMLResponse(graph)
+
+@app.get("/sensors")
+async def get_sensors():
+    return await read_sensors(time_sleep=0)
 
 @app.get("/stream")
 async def get():

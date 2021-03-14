@@ -19,9 +19,9 @@ logger.setLevel(logging.DEBUG)
 
 
 
-async def read_sensors(n_try=1):
+async def read_sensors(n_try=1, time_sleep=.5):
     results = {}
-    await sleep(.5)
+    await sleep(time_sleep)
     try:
         i2c = busio.I2C(board.SCL, board.SDA, frequency=10000)
         ads0 = ADS.ADS1115(i2c, address=const(0x48))
